@@ -33,7 +33,6 @@ compute_wdtw_distance_matrix_alignment <- function(trajectories, alpha1) {
       distance_matrix[j,i] <- d
     }
   }
-  
   return(distance_matrix)
 }
 
@@ -51,7 +50,6 @@ find_reference_trajectory <- function(distance_matrix, trajectories) {
     lengths <- sapply(trajectories[candidate_indices], length)
     reference_index <- candidate_indices[which.min(lengths)]
   }
-  
   return(reference_index)
 }
 
@@ -65,7 +63,6 @@ align_trajectories_to_reference <- function(trajectories, reference_trajectory) 
     alignment <- dtw(current_trajectory, reference_trajectory, keep = TRUE)
     index_p <- alignment$index1
     index_q <- alignment$index2
-    
     aligned_length <- length(reference_trajectory)
     T_prime_i <- numeric(aligned_length)
     
@@ -88,9 +85,7 @@ align_trajectories_to_reference <- function(trajectories, reference_trajectory) 
 compute_weighted_average_trajectory <- function(aligned_trajectories, weights) {
   n <- length(aligned_trajectories)
   trajectory_length <- length(aligned_trajectories[[1]])
-  
   updated_reference <- numeric(trajectory_length)
-  
   for (t in 1:trajectory_length) {
     numerator <- 0
     denominator <- 0
