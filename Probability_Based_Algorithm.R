@@ -1,14 +1,12 @@
-
 # Build empirical CDF functions
 empirical_cdf <- function(data) {
   sorted_data <- sort(data)
   probs <- seq(0, 1, length.out = length(sorted_data))
-  return(approxfun(probs, sorted_data, rule = 2)) # rule=2 means extrapolate using endpoints
+  return(approxfun(probs, sorted_data, rule = 2))
 }
 
 # Assume you have a real dataset called 'real_data' with columns:
 # lat, long, alt, vx, vy, vz
-
 empirical_cdf <- function(data) {
   sorted_data <- sort(data)
   probs <- seq(0, 1, length.out = length(sorted_data))
@@ -23,9 +21,7 @@ inv_cdf_vx <- empirical_cdf(real_data$vx)
 inv_cdf_vy <- empirical_cdf(real_data$vy)
 inv_cdf_vz <- empirical_cdf(real_data$vz)
 
-# --- Probability-Based Trajectory Generation Algorithm ---
-
-simulate_trajectory <- function(trajectory_length,inv_cdf_lat, inv_cdf_long, inv_cdf_alt, inv_cdf_vx, inv_cdf_vy, inv_cdf_vz, V_min, V_max, delta_t = 1) {
+simulate_trajectory <- function(trajectory_length,inv_cdf_lat, inv_cdf_long, inv_cdf_alt, inv_cdf_vx, inv_cdf_vy, inv_cdf_vz, V_min, V_max, delta_t, T) {
   
   # Initialize storage lists
   lat <- numeric()
@@ -40,10 +36,9 @@ simulate_trajectory <- function(trajectory_length,inv_cdf_lat, inv_cdf_long, inv
   long[1] <- inv_cdf_long(runif(1))
   alt[1] <- inv_cdf_alt(runif(1))
   
-  total_distance <- 0  # Initialize total traveled distance
   t <- 1
   
-  while (total_distance < trajectory_length) {
+  while (t < T) {
     # Generate velocity components
     vx_tmp <- inv_cdf_vx(runif(1))
     vy_tmp <- inv_cdf_vy(runif(1))
