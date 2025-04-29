@@ -7,8 +7,8 @@ empirical_cdf <- function(data) {
 
 # Assume you have a real dataset called 'real_data' with columns:
 # lat, long, alt, vx, vy, vz
-empirical_cdf <- function(data) {
-  sorted_data <- sort(data)
+empirical_cdf <- function(real_data) {
+  sorted_data <- sort(real_data)
   probs <- seq(0, 1, length.out = length(sorted_data))
   return(approxfun(probs, sorted_data, rule = 2)) # rule=2 means extrapolate using endpoints
 }
